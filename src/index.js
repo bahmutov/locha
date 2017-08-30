@@ -64,8 +64,8 @@ function locha (extraEnvironment, ...specs) {
       const failedTests = err.failedTests
       if (Array.isArray(failedTests)) {
         console.error(
-          'Failed first time, rerunning %d tests',
-          failedTests.length
+          'Failed first time, rerunning %s',
+          pluralize('test', failedTests.length, true)
         )
         return runSpecs(extraEnvironment, failedTests, ...specs)
       }
