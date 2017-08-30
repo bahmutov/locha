@@ -4,10 +4,6 @@ const Mocha = require('mocha')
 const leaveTests = require('leave-tests')
 const pluralize = require('pluralize')
 
-const verboseEnvironment = {
-  DEBUG: 'failing'
-}
-
 const hasTestsFilter = onlyTests => Array.isArray(onlyTests) && onlyTests.length
 
 function clearAllExtraModules () {
@@ -23,7 +19,7 @@ function clearAllExtraModules () {
 }
 const restoreRequireCache = clearAllExtraModules()
 
-function runSpecs (onlyTests, ...specs) {
+function runSpecs (extraEnvironment, onlyTests, ...specs) {
   restoreRequireCache()
 
   return new Promise((resolve, reject) => {
@@ -31,8 +27,7 @@ function runSpecs (onlyTests, ...specs) {
     const mocha = new Mocha()
 
     if (hasTestsFilter(onlyTests)) {
-      Object.assign(process.env, verboseEnvironment)
-      console.log('new DEBUG', process.env.DEBUG)
+      Object.assign(process.env, extraEnvironment)
     }
 
     specs.forEach(mocha.addFile.bind(mocha))
@@ -63,15 +58,25 @@ function runSpecs (onlyTests, ...specs) {
   })
 }
 
-function locha (...specs) {
-  runSpecs(null, ...specs)
+function locha (extraEnvironment, ...specs) {
+  return runSpecs(null, null, ...specs)
     .catch(err => {
       const failedTests = err.failedTests
-      console.error('Failed first time, rerunning %d tests', failedTests.length)
-      return runSpecs(failedTests, ...specs)
+      if (Array.isArray(failedTests)) {
+        console.error(
+          'Failed first time, rerunning %d tests',
+          failedTests.length
+        )
+        return runSpecs(extraEnvironment, failedTests, ...specs)
+      }
+      throw err
     })
     .catch(err => {
-      process.exit(err.failedTests.length)
+      const failedTests = err.failedTests
+      if (Array.isArray(failedTests)) {
+        return failedTests.length
+      }
+      throw err
     })
 }
 

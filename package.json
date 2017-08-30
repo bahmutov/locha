@@ -4,6 +4,9 @@
   "version": "0.0.0-development",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bugs": "https://github.com/bahmutov/locha/issues",
+  "alias": {
+    "locha": "bin/locha.js"
+  },
   "config": {
     "pre-git": {
       "commit-msg": "simple",
@@ -28,6 +31,7 @@
     "node": ">=6"
   },
   "files": [
+    "bin",
     "src/*.js",
     "!src/*-spec.js"
   ],
@@ -53,13 +57,14 @@
   },
   "scripts": {
     "ban": "ban",
+    "demo": "./bin/locha.js demo/failing-spec.js --env DEBUG:failing",
     "deps": "deps-ok && dependency-check --no-dev .",
     "issues": "git-issues",
     "license": "license-checker --production --onlyunknown --csv",
-    "lint": "standard --verbose --fix 'src/*.js' 'test/*.js'",
+    "lint": "standard --verbose --fix 'src/*.js' 'test/*.js' 'bin/*.js'",
     "prelint": "npm run pretty",
     "pretest": "npm run lint",
-    "pretty": "prettier-standard 'src/*.js' 'test/*.js'",
+    "pretty": "prettier-standard 'src/*.js' 'test/*.js' 'bin/*.js'",
     "secure": "nsp check",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "npm run unit",
@@ -92,6 +97,7 @@
   },
   "dependencies": {
     "leave-tests": "1.0.0",
+    "minimist": "1.2.0",
     "mocha": "3.5.0",
     "pluralize": "7.0.0"
   }
