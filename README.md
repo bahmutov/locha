@@ -21,9 +21,10 @@ debug a failing test. Usually if CI fails, we would rerun the failing test local
 * If any tests failed during the first run, rerun just these failing tests with
   extra environment variables. For example we can turn on verbose logging.
 
-The demo below shows `locha` in action. Second round of testing is triggered because
+The demo below shows `locha` in action. First round has all the tests with just
+a few `console.log` statements. Second round of testing is triggered because
 test "failing spec B" fails, and is rerun with `{"DEBUG":"failing"}` additional
-environment variable set.
+environment variable set, which produces a lot more output.
 
 ```text
 $ npm run demo
