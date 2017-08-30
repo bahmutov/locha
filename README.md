@@ -93,6 +93,14 @@ just failing tests, the test command would be
 }
 ```
 
+## Related projects
+
+* [focha](https://github.com/bahmutov/focha) - Mocha 
+    wrapper that runs previously failed tests first
+* [rocha](https://github.com/bahmutov/rocha) - Runs Mocha unit tests but randomizes their order
+* [snap-shot-it](https://github.com/bahmutov/snap-shot-it) - Smarter snapshot utility for 
+    Mocha and BDD test runners
+
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2017
