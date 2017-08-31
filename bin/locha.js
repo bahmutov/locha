@@ -10,6 +10,16 @@ const { objectFromString } = require('../src/utils')
 const locha = require('..')
 const minimist = require('minimist')
 
+const getMochaOpts = require('mocha/bin/options')
+// If not already done, load mocha.opts
+if (!process.env.LOADED_MOCHA_OPTS) {
+  debug('argv before possible --opts')
+  debug(process.argv.slice(2))
+  getMochaOpts()
+  debug('after')
+  debug(process.argv.slice(2))
+}
+
 const argv = minimist(process.argv.slice(2), {
   string: ['env', 'compilers', 'require'],
   alias: {

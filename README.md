@@ -111,6 +111,7 @@ Locha only supports some of them. Here they are
 -t, --timeout <ms>
 -r, --require <module name>
 --compilers <ext1>:<module name1>,<ext2>:<module name2>
+--opts <filename>
 ```
 
 ## Related projects
