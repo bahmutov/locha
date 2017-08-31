@@ -18,7 +18,8 @@ function restoreRequireCache () {
 
 const isMochaOpts = is.schema({
   timeout: is.maybe.positive,
-  reporter: is.maybe.string
+  reporter: is.maybe.string,
+  reporterOptions: is.maybe.object
 })
 
 function runSpecs (extraEnvironment, onlyTests, mochaOpts, ...specs) {
@@ -67,9 +68,9 @@ function runSpecs (extraEnvironment, onlyTests, mochaOpts, ...specs) {
       throw new Error('Could not load reporter ' + mochaOpts.reporter)
     }
 
-    const reporterOptions = {}
     debug('mocha reporter', mochaOpts.reporter)
-    mocha.reporter(mochaOpts.reporter, reporterOptions)
+    debug('with options', mochaOpts.reporterOptions)
+    mocha.reporter(mochaOpts.reporter, mochaOpts.reporterOptions)
 
     if (mochaOpts.timeout) {
       mocha.suite.timeout(mochaOpts.timeout)

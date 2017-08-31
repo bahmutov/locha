@@ -6,7 +6,11 @@ const R = require('ramda')
 const is = require('check-more-types')
 const join = require('path').join
 const debug = require('debug')('locha')
-const { objectFromString, envFromString } = require('../src/utils')
+const {
+  objectFromString,
+  envFromString,
+  reporterOptionsFromString
+} = require('../src/utils')
 const locha = require('..')
 const minimist = require('minimist')
 const mochaUtils = require('mocha').utils
@@ -22,12 +26,21 @@ if (!process.env.LOADED_MOCHA_OPTS) {
 }
 
 const argv = minimist(process.argv.slice(2), {
-  string: ['env', 'compilers', 'require', 'reporter', 'opts'],
+  string: [
+    'env',
+    'compilers',
+    'require',
+    'reporter',
+    'opts',
+    'reporterOptions'
+  ],
   boolean: ['recursive'],
   alias: {
     R: 'reporter',
     r: 'require',
-    t: 'timeout'
+    t: 'timeout',
+    O: 'reporterOptions',
+    'reporter-options': 'reporterOptions'
   },
   default: {
     reporter: 'spec',
@@ -52,6 +65,10 @@ if (argv.compilers) {
     require(compiler)
     extensions.push(extension)
   })
+}
+
+if (argv.reporterOptions) {
+  argv.reporterOptions = reporterOptionsFromString(argv.reporterOptions)
 }
 
 const specs = argv._
@@ -115,7 +132,7 @@ if (argv.require) {
   })
 }
 
-const mochaOpts = R.pick(['timeout', 'reporter'])(argv)
+const mochaOpts = R.pick(['timeout', 'reporter', 'reporterOptions'])(argv)
 
 locha(env, mochaOpts, ...files)
   .then(Number)

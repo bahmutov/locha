@@ -1,6 +1,10 @@
 import test from 'ava'
 import locha from '..'
-import { objectFromString, envFromString } from '../src/utils'
+import {
+  objectFromString,
+  envFromString,
+  reporterOptionsFromString
+} from '../src/utils'
 
 test('basic', t => {
   t.is(typeof locha, 'function')
@@ -25,4 +29,9 @@ test('several compilers', t => {
 test('environment from string', t => {
   const s = 'DEBUG=foo:*,bar;LOG=verbose'
   t.snapshot(envFromString(s))
+})
+
+test('reporter options from string', t => {
+  const s = 'k1=v1,k2=v2,k3=v3'
+  t.snapshot(reporterOptionsFromString(s))
 })

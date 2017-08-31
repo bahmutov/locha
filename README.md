@@ -113,6 +113,7 @@ Locha only supports some of them. Here they are
 -t, --timeout <ms>
 -r, --require <module name>
 -R, --reporter <reporter name>
+-O, --reporter-options <k=v,k2=v2,...>
 --compilers <ext1>:<module name1>,<ext2>:<module name2>
 --opts <filename>
 --recursive

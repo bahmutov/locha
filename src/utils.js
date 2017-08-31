@@ -22,4 +22,7 @@ const objectFromString = R.partial(stringToObject, [',', ':'])
 // {DEBUG: 'foo:*,bar', LOG: 'verbose'}
 const envFromString = R.partial(stringToObject, [';', '='])
 
-module.exports = { objectFromString, envFromString }
+// <k=v,k2=v2,...>
+const reporterOptionsFromString = R.partial(stringToObject, [',', '='])
+
+module.exports = { objectFromString, envFromString, reporterOptionsFromString }
