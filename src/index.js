@@ -1,5 +1,6 @@
 'use strict'
 
+const debug = require('debug')('locha')
 const Mocha = require('mocha')
 const leaveTests = require('leave-tests')
 const pluralize = require('pluralize')
@@ -22,7 +23,8 @@ function clearAllExtraModules () {
 const restoreRequireCache = clearAllExtraModules()
 
 const isMochaOpts = is.schema({
-  timeout: is.maybe.positive
+  timeout: is.maybe.positive,
+  reporter: is.maybe.string
 })
 
 function runSpecs (extraEnvironment, onlyTests, mochaOpts, ...specs) {
@@ -40,6 +42,10 @@ function runSpecs (extraEnvironment, onlyTests, mochaOpts, ...specs) {
     }
 
     specs.forEach(mocha.addFile.bind(mocha))
+
+    const reporterOptions = {}
+    debug('mocha reporter', mochaOpts.reporter)
+    mocha.reporter(mochaOpts.reporter, reporterOptions)
 
     if (mochaOpts.timeout) {
       mocha.suite.timeout(mochaOpts.timeout)

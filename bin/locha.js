@@ -23,6 +23,7 @@ if (!process.env.LOADED_MOCHA_OPTS) {
 const argv = minimist(process.argv.slice(2), {
   string: ['env', 'compilers', 'require'],
   alias: {
+    R: 'reporter',
     r: 'require',
     t: 'timeout'
   }
@@ -67,7 +68,7 @@ if (argv.require) {
   })
 }
 
-const mochaOpts = R.pick(['timeout'])(argv)
+const mochaOpts = R.pick(['timeout', 'reporter'])(argv)
 
 locha(env, mochaOpts, ...specs)
   .then(Number)

@@ -1,4 +1,5 @@
 --timeout 3500
 -r ./dummy.js
 --compilers coffee:coffee-script/register
+--reporter dot
 spec.coffee
