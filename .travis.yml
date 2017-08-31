@@ -11,8 +11,11 @@ before_script:
 script:
   - npm test
   - cd coffee-example && npm install
-  - cd coffee-example && npm run coffee
-  - cd coffee-example && DEBUG=locha npm test
+  # we are remaining inside coffee-example folder
+  - npm run coffee
+  - DEBUG=locha npm test
+  # with custom --opts file
+  - npm run coffee-opts
 after_success:
   - npm run semantic-release
 branches:

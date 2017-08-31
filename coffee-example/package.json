@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "../bin/locha.js -r ./dummy.js -r ./dummy.js --timeout 3500 --compilers coffee:coffee-script/register spec.coffee",
-    "coffee": "../node_modules/.bin/mocha --timeout 3500 -r ./dummy.js --compilers coffee:coffee-script/register spec.coffee"
+    "coffee": "../node_modules/.bin/mocha --timeout 3500 -r ./dummy.js --compilers coffee:coffee-script/register spec.coffee",
+    "coffee-opts": "../node_modules/.bin/mocha --opts my.opts"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,4 @@
+--timeout 3500
+-r ./dummy.js
+--compilers coffee:coffee-script/register
+spec.coffee
