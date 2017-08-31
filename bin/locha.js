@@ -21,14 +21,25 @@ if (!process.env.LOADED_MOCHA_OPTS) {
 }
 
 const argv = minimist(process.argv.slice(2), {
-  string: ['env', 'compilers', 'require'],
+  string: ['env', 'compilers', 'require', 'reporter'],
   alias: {
     R: 'reporter',
     r: 'require',
     t: 'timeout'
+  },
+  default: {
+    reporter: 'spec'
   }
 })
 const specs = argv._
+
+if (is.array(argv.reporter)) {
+  if (is.empty(argv.reporter)) {
+    delete argv.reporter
+  } else {
+    argv.reporter = R.last(argv.reporter)
+  }
+}
 
 if (is.string(argv.require)) {
   argv.require = [argv.require]
