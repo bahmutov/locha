@@ -17,8 +17,13 @@ script:
   # with custom --opts file
   - npm run coffee-opts
   - DEBUG=locha npm run test-opts
+  # recursive test discovery
   - cd ../recursive-example
   - DEBUG=locha npm t
+  # custom reporter modules
+  - cd ../reporter-example
+  - npm install
+  - DEBUG=locha npm test
   - cd ..
 after_success:
   - npm run semantic-release

@@ -6,6 +6,7 @@ const leaveTests = require('leave-tests')
 const pluralize = require('pluralize')
 const la = require('lazy-ass')
 const is = require('check-more-types')
+const join = require('path').join
 
 const hasTestsFilter = onlyTests => Array.isArray(onlyTests) && onlyTests.length
 
@@ -35,6 +36,36 @@ function runSpecs (extraEnvironment, onlyTests, mochaOpts, ...specs) {
     }
 
     specs.forEach(mocha.addFile.bind(mocha))
+
+    // load reporters
+    const cwd = process.cwd()
+    debug('proces.cwd', cwd)
+    module.paths.unshift(cwd, join(cwd, 'node_modules'))
+    debug('module.paths')
+    debug(module.paths)
+
+    let Reporter = null
+    try {
+      const builtInReporterPath = 'mocha/lib/reporters/' + mochaOpts.reporter
+      debug('trying to load built-in? reporter', builtInReporterPath)
+      Reporter = require(builtInReporterPath)
+      mochaOpts.reporter = builtInReporterPath
+      debug('found built-in module', builtInReporterPath)
+    } catch (err) {
+      try {
+        debug('trying to load plain reporter', mochaOpts.reporter)
+        Reporter = require(mochaOpts.reporter)
+        mochaOpts.reporter = require.resolve(mochaOpts.reporter)
+        debug('full reporter path', mochaOpts.reporter)
+      } catch (err2) {
+        debug(err2.message)
+        debug(err2.stack)
+        throw new Error('reporter "' + mochaOpts.reporter + '" does not exist')
+      }
+    }
+    if (!Reporter) {
+      throw new Error('Could not load reporter ' + mochaOpts.reporter)
+    }
 
     const reporterOptions = {}
     debug('mocha reporter', mochaOpts.reporter)

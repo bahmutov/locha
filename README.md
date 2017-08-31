@@ -102,6 +102,7 @@ To see verbose log messages, run with `DEBUG=locha` environment variable
 
 * [CoffeeScript tests](coffee-example)
 * [recursive tests](recursive-example)
+* [custom reporters](reporter-example)
 
 ## Mocha options
 
@@ -111,6 +112,7 @@ Locha only supports some of them. Here they are
 ```
 -t, --timeout <ms>
 -r, --require <module name>
+-R, --reporter <reporter name>
 --compilers <ext1>:<module name1>,<ext2>:<module name2>
 --opts <filename>
 --recursive
