@@ -9,18 +9,11 @@ const is = require('check-more-types')
 
 const hasTestsFilter = onlyTests => Array.isArray(onlyTests) && onlyTests.length
 
-function clearAllExtraModules () {
-  // current snapshot
-  const loadedModules = Object.keys(require.cache)
-  return function clearAnyNewModules () {
-    Object.keys(require.cache).forEach(moduleName => {
-      if (!loadedModules.includes(moduleName)) {
-        delete require.cache[moduleName]
-      }
-    })
-  }
+function restoreRequireCache () {
+  Object.keys(require.cache).forEach(moduleName => {
+    delete require.cache[moduleName]
+  })
 }
-const restoreRequireCache = clearAllExtraModules()
 
 const isMochaOpts = is.schema({
   timeout: is.maybe.positive,

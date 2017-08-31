@@ -6,7 +6,7 @@ const R = require('ramda')
 const is = require('check-more-types')
 const join = require('path').join
 const debug = require('debug')('locha')
-const { objectFromString } = require('../src/utils')
+const { objectFromString, envFromString } = require('../src/utils')
 const locha = require('..')
 const minimist = require('minimist')
 const mochaUtils = require('mocha').utils
@@ -89,7 +89,9 @@ if (!files.length) {
 debug('found spec files')
 debug(files)
 
-const env = objectFromString(argv.env)
+const env = envFromString(argv.env)
+debug('extra environment settings', env)
+
 if (argv.compilers) {
   const compilers = objectFromString(argv.compilers)
   debug('extra compilers', compilers)

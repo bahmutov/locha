@@ -57,7 +57,7 @@
   },
   "scripts": {
     "ban": "ban",
-    "demo": "./bin/locha.js demo/failing-spec.js --env DEBUG:failing",
+    "demo": "./bin/locha.js demo/failing-spec.js --env DEBUG=failing",
     "deps": "deps-ok && dependency-check --no-dev .",
     "issues": "git-issues",
     "license": "license-checker --production --onlyunknown --csv",

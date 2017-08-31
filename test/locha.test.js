@@ -1,6 +1,6 @@
 import test from 'ava'
 import locha from '..'
-import { objectFromString } from '../src/utils'
+import { objectFromString, envFromString } from '../src/utils'
 
 test('basic', t => {
   t.is(typeof locha, 'function')
@@ -20,4 +20,9 @@ test('one compiler', t => {
 
 test('several compilers', t => {
   t.snapshot(objectFromString('coffee:coffee-script/register,ts:typescript'))
+})
+
+test('environment from string', t => {
+  const s = 'DEBUG=foo:*,bar;LOG=verbose'
+  t.snapshot(envFromString(s))
 })
