@@ -35,7 +35,25 @@ const argv = minimist(process.argv.slice(2), {
   }
 })
 
+const cwd = process.cwd()
+debug('proces.cwd', cwd)
+module.paths.push(cwd, join(cwd, 'node_modules'))
+debug('module.paths')
+debug(module.paths)
+
 const extensions = ['js']
+
+if (argv.compilers) {
+  const compilers = objectFromString(argv.compilers)
+  debug('extra compilers', compilers)
+  Object.keys(compilers).forEach(extension => {
+    const compiler = compilers[extension]
+    debug('loading compiler', compiler, 'for extension', extension)
+    require(compiler)
+    extensions.push(extension)
+  })
+}
+
 const specs = argv._
 // find all files, implementation from
 // https://github.com/mochajs/mocha/blob/075bd51906b828812b320f33cd1c7fa60d1702f1/bin/_mocha#L379-L402
@@ -74,11 +92,6 @@ if (is.string(argv.require)) {
   argv.require = [argv.require]
 }
 
-const cwd = process.cwd()
-debug('proces.cwd', cwd)
-module.paths.push(cwd, join(cwd, 'node_modules'))
-debug('module.paths')
-debug(module.paths)
 debug('CLI options', argv)
 
 if (!files.length) {
@@ -91,16 +104,6 @@ debug(files)
 
 const env = envFromString(argv.env)
 debug('extra environment settings', env)
-
-if (argv.compilers) {
-  const compilers = objectFromString(argv.compilers)
-  debug('extra compilers', compilers)
-  Object.keys(compilers).forEach(extension => {
-    const compiler = compilers[extension]
-    debug('loading compiler', compiler, 'for extension', extension)
-    require(compiler)
-  })
-}
 
 if (argv.require) {
   argv.require.forEach(extraModule => {

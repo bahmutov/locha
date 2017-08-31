@@ -2,4 +2,4 @@
 -r ./dummy.js
 --compilers coffee:coffee-script/register
 --reporter dot
-spec.coffee
+test
