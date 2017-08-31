@@ -94,6 +94,25 @@ just failing tests, the test command would be
 }
 ```
 
+## Debugging
+
+To see verbose log messages, run with `DEBUG=locha` environment variable
+
+## Examples
+
+* [CoffeeScript](coffee-example) tests
+
+## Mocha options
+
+Mocha supports a [LOT of command line options](https://github.com/mochajs/mocha/blob/master/bin/_mocha#L62).
+Locha only supports some of them. Here they are
+
+```
+-t, --timeout <ms>
+-r, --require <module name>
+--compilers <ext1>:<module name1>,<ext2>:<module name2>
+```
+
 ## Related projects
 
 * [focha](https://github.com/bahmutov/focha) - Mocha 

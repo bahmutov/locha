@@ -3,6 +3,8 @@
 const Mocha = require('mocha')
 const leaveTests = require('leave-tests')
 const pluralize = require('pluralize')
+const la = require('lazy-ass')
+const is = require('check-more-types')
 
 const hasTestsFilter = onlyTests => Array.isArray(onlyTests) && onlyTests.length
 
@@ -19,7 +21,14 @@ function clearAllExtraModules () {
 }
 const restoreRequireCache = clearAllExtraModules()
 
-function runSpecs (extraEnvironment, onlyTests, ...specs) {
+const isMochaOpts = is.schema({
+  timeout: is.maybe.positive
+})
+
+function runSpecs (extraEnvironment, onlyTests, mochaOpts, ...specs) {
+  la(is.object(mochaOpts), 'expected mocha options', mochaOpts)
+  la(isMochaOpts(mochaOpts), 'invalid options inside Mocha options', mochaOpts)
+
   restoreRequireCache()
 
   return new Promise((resolve, reject) => {
@@ -31,6 +40,10 @@ function runSpecs (extraEnvironment, onlyTests, ...specs) {
     }
 
     specs.forEach(mocha.addFile.bind(mocha))
+
+    if (mochaOpts.timeout) {
+      mocha.suite.timeout(mochaOpts.timeout)
+    }
 
     if (hasTestsFilter(onlyTests)) {
       mocha.suite.beforeAll(() => leaveTests(onlyTests)(mocha.suite))
@@ -58,8 +71,8 @@ function runSpecs (extraEnvironment, onlyTests, ...specs) {
   })
 }
 
-function locha (extraEnvironment, ...specs) {
-  return runSpecs(null, null, ...specs)
+function locha (extraEnvironment, mochaOpts, ...specs) {
+  return runSpecs(null, null, mochaOpts, ...specs)
     .catch(err => {
       const failedTests = err.failedTests
       if (Array.isArray(failedTests)) {
@@ -67,7 +80,7 @@ function locha (extraEnvironment, ...specs) {
           'Failed first time, rerunning %s',
           pluralize('test', failedTests.length, true)
         )
-        return runSpecs(extraEnvironment, failedTests, ...specs)
+        return runSpecs(extraEnvironment, failedTests, mochaOpts, ...specs)
       }
       throw err
     })

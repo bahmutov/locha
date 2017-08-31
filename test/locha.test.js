@@ -13,3 +13,11 @@ test('single object', t => {
 test('multiple properties', t => {
   t.snapshot(objectFromString('DEBUG:foo,LOG:verbose'))
 })
+
+test('one compiler', t => {
+  t.snapshot(objectFromString('coffee:coffee-script/register'))
+})
+
+test('several compilers', t => {
+  t.snapshot(objectFromString('coffee:coffee-script/register,ts:typescript'))
+})

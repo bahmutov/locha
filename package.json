@@ -68,7 +68,7 @@
     "secure": "nsp check",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "npm run unit",
-    "unit": "ava test",
+    "unit": "ava --verbose test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "release": {
@@ -96,9 +96,13 @@
     "standard": "10.0.3"
   },
   "dependencies": {
+    "check-more-types": "2.24.0",
+    "debug": "3.0.1",
+    "lazy-ass": "1.6.0",
     "leave-tests": "1.0.0",
     "minimist": "1.2.0",
     "mocha": "3.5.0",
-    "pluralize": "7.0.0"
+    "pluralize": "7.0.0",
+    "ramda": "0.24.1"
   }
 }
