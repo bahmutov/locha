@@ -17,6 +17,8 @@ script:
   # with custom --opts file
   - npm run coffee-opts
   - DEBUG=locha npm run test-opts
+  - cd ../recursive-example
+  - DEBUG=locha npm t
   - cd ..
 after_success:
   - npm run semantic-release
